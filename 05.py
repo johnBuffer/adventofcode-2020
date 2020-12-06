@@ -16,12 +16,11 @@ def solve1():
 
 def solve2():
     # lel
-    plane = [0] * 1024
+    plane = ['0'] * 1024
     for s in loadData('05'):
-        plane[get_seat_id(s)] = 1
+        plane[get_seat_id(s)] = '1'
     
-    for i in range(1, len(plane)):
-        if plane[i-1] == 1 and plane[i] == 0:
-            return i
+    return ''.join(plane).find('101') + 1
 
+print(solve1())
 print(solve2())
