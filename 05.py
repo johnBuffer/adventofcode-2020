@@ -1,18 +1,11 @@
 def loadData(day):
 	return [l.strip() for l in open('{}.data'.format(day), 'r')]
 
-def dicho(data, up_char, dw_char):
-    mx = 2**(len(data) - 1)
-    res = 0
-    for c in data:
-        if c == up_char:
-            res += mx
-        mx //= 2
-
-    return res
+def dicho(data, up_char):
+    return sum([int(c == up_char) * (2**(len(data) - 1 - i)) for i, c in enumerate(data)])
 
 def get_seat_pos(seat_str):
-    return dicho(seat_str[:7], 'B', 'F'), dicho(seat_str[7:], 'R', 'L')
+    return dicho(seat_str[:7], 'B'), dicho(seat_str[7:], 'R')
 
 def get_seat_id(seat_str):
     row, col = get_seat_pos(seat_str)
