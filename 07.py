@@ -17,13 +17,8 @@ def canContain(outer, inner, rules):
 def count(bag, rules):
     return sum(c * (count(b, rules) + 1) for c, b in rules[bag])
 
-def solve1():
-    rules = dict(parseRule(l) for l in loadData('07'))
-    return sum(canContain(r, "shiny gold", rules) for r in rules.keys())
-
-def solve2():
-    rules = dict(parseRule(l) for l in loadData('07'))
-    return count("shiny gold", rules)
-
-print(solve1())
-print(solve2())
+rules = dict(parseRule(l) for l in loadData('07'))
+# Problem 1
+print(sum(canContain(r, "shiny gold", rules) for r in rules.keys()))
+# Problem 2
+print(count("shiny gold", rules))
