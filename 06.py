@@ -9,7 +9,7 @@ def solve1():
 
 def solve2():
     groups = [(g, g.count('\n') + 1) for g in loadAllData('06').split('\n\n')]
-    return sum([sum([int(g.count(letter) == c) for letter in alpha]) for g, c in groups])
+    return sum([sum([g.count(letter) == c for letter in alpha]) for g, c in groups])
 
 print(solve1())
 print(solve2())
