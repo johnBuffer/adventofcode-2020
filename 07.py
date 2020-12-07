@@ -1,6 +1,3 @@
-def loadData(day):
-	return [l for l in open('{}.data'.format(day), 'r')]
-
 def parseRule(line):
     # Remove the dot
     parts = line.strip('\n')[:-1].split('bags contain')
@@ -17,7 +14,7 @@ def canContain(outer, inner, rules):
 def count(bag, rules):
     return sum(c * (count(b, rules) + 1) for c, b in rules[bag])
 
-rules = dict(parseRule(l) for l in loadData('07'))
+rules = dict(parseRule(l) for l in open('07.data'))
 # Problem 1
 print(sum(canContain(r, "shiny gold", rules) for r in rules.keys()))
 # Problem 2
