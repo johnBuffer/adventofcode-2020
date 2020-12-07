@@ -1,5 +1,5 @@
 def loadData(day):
-	return [l.strip() for l in open('{}.data'.format(day), 'r')]
+	return [l.strip() for l in open('{}.data'.format(day), 'r')] + ['']
 
 def getFields(line):
     result = {}
@@ -83,9 +83,6 @@ def solve1():
             current_fields = {}
         else:
             current_fields.update(getFields(line))
-
-    if checkPassport(current_fields, required):
-        result += 1
     
     return result
     
