@@ -9,9 +9,9 @@ def solve1(pgrm, executed, discard=False, counter=0, acc=0):
 
 def solve2(p, i=0, done=False, acc=0):
     while not done:
-        _, _, cmd, a = p[i]
+        _, _, cmd, arg = p[i]
         idx = ['jmp', 'nop', 'acc'].index(cmd)
-        (acc, done), i = solve1(p[0:i] + [(idx * a - idx + 1, 0, '', a)] + p[i+1:], [False]*len(p), idx == 2), i+1
+        (acc, done), i = solve1(p[0:i] + [(idx * arg - idx + 1, 0, '', arg)] + p[i+1:], [False]*len(p), idx == 2), i+1
     return acc
 
 program = [parse_line(l)  for l in open('08.data', 'r')]
