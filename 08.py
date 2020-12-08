@@ -2,18 +2,16 @@ def parse_line(line):
     instr, arg = line.split(' ')
     return (instr != 'jmp') + (instr == 'jmp') * int(arg), (instr == 'acc') * int(arg), instr, int(arg)
 
-def solve1(pgrm, counter, acc, executed):
-    while len(pgrm) > counter > -1 and not executed[counter]:
+def solve1(pgrm, counter, acc, executed, discard=False):
+    while len(pgrm) > counter > -1 and not executed[counter] and not discard:
         executed[counter], (counter, acc) = True, map(sum, zip([counter, acc], pgrm[counter][:-2]))
     return acc, counter == len(pgrm)
 
-def solve2(pgrm, i, done, acc):
+def solve2(p, i, done, acc):
     while not done:
-        _, _, instr, arg = pgrm[i]
-        idx = ['jmp', 'nop', 'acc'].index(instr)
-        if idx < 2:
-            acc, done = solve1(pgrm[0:i] + [(idx * arg + (not idx), 0, '', arg)] + pgrm[i+1:], 0, 0, [False] * len(pgrm))
-        i += 1
+        _, _, istr, a = p[i]
+        idx = ['jmp', 'nop', 'acc'].index(istr)
+        (acc, done), i = solve1(p[0:i] + [(idx * a - idx + 1, 0, '', a)] + p[i+1:], 0, 0, [False]*len(p), idx == 2), i+1
     return acc
 
 program = [parse_line(l)  for l in open('08.data', 'r')]
