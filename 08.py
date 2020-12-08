@@ -1,19 +1,19 @@
 def parse_line(line):
-    instr, arg = line.split(' ')
-    return (instr != 'jmp') + (instr == 'jmp') * int(arg), (instr == 'acc') * int(arg), instr, int(arg)
+    cmd, arg = line.split(' ')
+    return (cmd != 'jmp') + (cmd == 'jmp') * int(arg), (cmd == 'acc') * int(arg), cmd, int(arg)
 
-def solve1(pgrm, counter, acc, executed, discard=False):
+def solve1(pgrm, executed, discard=False, counter=0, acc=0):
     while len(pgrm) > counter > -1 and not executed[counter] and not discard:
         executed[counter], (counter, acc) = True, map(sum, zip([counter, acc], pgrm[counter][:-2]))
     return acc, counter == len(pgrm)
 
-def solve2(p, i, done, acc):
+def solve2(p, i=0, done=False, acc=0):
     while not done:
-        _, _, istr, a = p[i]
-        idx = ['jmp', 'nop', 'acc'].index(istr)
-        (acc, done), i = solve1(p[0:i] + [(idx * a - idx + 1, 0, '', a)] + p[i+1:], 0, 0, [False]*len(p), idx == 2), i+1
+        _, _, cmd, a = p[i]
+        idx = ['jmp', 'nop', 'acc'].index(cmd)
+        (acc, done), i = solve1(p[0:i] + [(idx * a - idx + 1, 0, '', a)] + p[i+1:], [False]*len(p), idx == 2), i+1
     return acc
 
 program = [parse_line(l)  for l in open('08.data', 'r')]
-print(solve1(program, 0, 0, [False] * len(program))[0])
-print(solve2(program, 0, False, 0))
+print(solve1(program, [False] * len(program))[0])
+print(solve2(program))
