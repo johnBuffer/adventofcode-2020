@@ -1,4 +1,4 @@
-def solve1():
+def solve_1():
     grid = [l for l in open('input', 'r')]
 
     slopes = [
@@ -29,4 +29,4 @@ def solve1():
         
     return res
 
-print(solve1())
+print(solve_1())

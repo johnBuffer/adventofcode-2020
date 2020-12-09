@@ -63,7 +63,7 @@ def checkID(payload):
 def checkPassport(data, required):
     return checkFields(data, required.keys(), []) and all(required[k](v) for k, v in data.items() if k in required)
 
-def solve1():
+def solve_1():
     required = {
         'byr': checkBirth,
         'iyr': checkIssue,
@@ -86,4 +86,4 @@ def solve1():
     
     return result
     
-print(solve1())
+print(solve_1())

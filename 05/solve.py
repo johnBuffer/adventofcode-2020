@@ -11,10 +11,10 @@ def get_seat_id(seat_str):
     row, col = get_seat_pos(seat_str)
     return row * 8 + col
 
-def solve1():
+def solve_1():
     return max([get_seat_id(s) for s in loadData('05')])
 
-def solve2():
+def solve_2():
     # lel
     plane = ['0'] * 1024
     for s in loadData('05'):
@@ -22,5 +22,5 @@ def solve2():
     
     return ''.join(plane).find('101') + 1
 
-print(solve1())
-print(solve2())
+print(solve_1())
+print(solve_2())
