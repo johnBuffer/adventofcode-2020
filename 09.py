@@ -4,7 +4,7 @@ def solve1(d, s):
             return data[i]
 
 def solve2(d, t):
-    a, b, s = 0, 1, d[0]
+    a, b, s = 0, 0, 0
     while s != t:
         a, b, s = a + (s > t), b + (s < t), s - d[a] * (s > t) + d[b] * (s < t)
     return min(data[a:b]) + max(data[a:b])
