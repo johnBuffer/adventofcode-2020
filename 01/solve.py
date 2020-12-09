@@ -1,11 +1,5 @@
-def loadData(day):
-	return [int(l) for l in open("{}.data".format(day), "r")]
-
-def solve_1():
-	data = loadData("01")
-	
+def solve_1(data):	
 	target = 2020
-
 	for i, n1 in enumerate(data):
 		for k, n2 in enumerate(data):
 			if k != i and n1 + n2 == target:
@@ -14,9 +8,7 @@ def solve_1():
 
 	return None
 
-def solve_2():
-	data = loadData("01")
-	
+def solve_2(data):
 	target = 2020
 
 	for i, n1 in enumerate(data):
@@ -28,5 +20,6 @@ def solve_2():
 
 	return None
 
-print(solve_1())
-print(solve_2())
+data = [int(l) for l in open("input", "r")]
+print(solve_1(data))
+print(solve_2(data))

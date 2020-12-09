@@ -9,6 +9,6 @@ def solve2(d, t):
         a, b, s = a + (s > t), b + (s < t), s - d[a] * (s > t) + d[b] * (s < t)
     return min(data[a:b]) + max(data[a:b])
 
-data = [int(l) for l in open('09.data')]
+data = [int(l) for l in open('input')]
 print(solve1(data, 25))
 print(solve2(data, solve1(data, 25)))

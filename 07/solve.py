@@ -14,7 +14,7 @@ def canContain(outer, inner, rules):
 def count(bag, rules):
     return sum(c * (count(b, rules) + 1) for c, b in rules[bag])
 
-rules = dict(parseRule(l) for l in open('07.data'))
+rules = dict(parseRule(l) for l in open('input'))
 # Problem 1
 print(sum(canContain(r, "shiny gold", rules) for r in rules.keys()))
 # Problem 2

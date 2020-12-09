@@ -1,7 +1,7 @@
 alpha = 'abcdefghijklmnopqrstuvwxyz'
 
 def loadAllData(day):
-    return open('{}.data'.format(day), 'r').read()
+    return open('input', 'r').read()
 
 def solve1():
     groups = loadAllData('06').split('\n\n')

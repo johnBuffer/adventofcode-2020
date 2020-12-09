@@ -1,5 +1,5 @@
 def loadData(day):
-	return [l.strip() for l in open('{}.data'.format(day), 'r')]
+	return [l.strip() for l in open('input', 'r')]
 
 def dicho(data, up_char):
     return sum([int(c == up_char) * (2**(len(data) - 1 - i)) for i, c in enumerate(data)])

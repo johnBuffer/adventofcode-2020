@@ -1,9 +1,5 @@
-def loadData(day):
-	return [l for l in open('{}.data'.format(day), 'r')]
-
-
 def solve1():
-    grid = loadData('03')
+    grid = [l for l in open('input', 'r')]
 
     slopes = [
         (1, 1),

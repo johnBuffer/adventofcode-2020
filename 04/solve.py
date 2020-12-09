@@ -1,5 +1,5 @@
 def loadData(day):
-	return [l.strip() for l in open('{}.data'.format(day), 'r')] + ['']
+	return [l.strip() for l in open('input', 'r')] + ['']
 
 def getFields(line):
     result = {}

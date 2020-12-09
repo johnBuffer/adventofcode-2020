@@ -7,11 +7,11 @@ def parse_line(line):
 
 	return times_low, times_up, letter, password
 
-def loadData(day):
-	return [parse_line(l) for l in open("{}.data".format(day), "r")]
+def loadData():
+	return [parse_line(l) for l in open("input", "r")]
 
 def solve_1():
-	data = loadData('02')
+	data = loadData()
 	result = 0
 	for times_low, times_up, letter, password in data:
 		if times_up >= password.count(letter) >= times_low:
@@ -20,7 +20,7 @@ def solve_1():
 	return result
 
 def solve_2():
-	data = loadData('02')
+	data = loadData()
 	result = 0
 	for times_low, times_up, letter, password in data:
 		if password[times_low - 1] == letter and password[times_up - 1] != letter:

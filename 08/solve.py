@@ -14,6 +14,6 @@ def solve2(p, i=0, done=False, acc=0):
         (acc, done), i = solve1(p[0:i] + [(idx * arg - idx + 1, 0, '', arg)] + p[i+1:], [False]*len(p), idx == 2), i+1
     return acc
 
-program = [parse_line(l)  for l in open('08.data', 'r')]
+program = [parse_line(l)  for l in open('input', 'r')]
 print(solve1(program, [False] * len(program))[0])
 print(solve2(program))
