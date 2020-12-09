@@ -1,6 +1,6 @@
-def solve1(data, s):
-    for i in range(s, len(data)):
-        if data[i] not in [(m + n) for j, m in enumerate(data[i-s:i]) for n in data[i-s+j+1:i]]:
+def solve1(d, s):
+    for i in range(s, len(d)):
+        if data[i] not in [(m + n) for j, m in enumerate(d[i-s:i]) for n in d[i-s+j+1:i]]:
             return data[i]
 
 def solve2(d, t):
