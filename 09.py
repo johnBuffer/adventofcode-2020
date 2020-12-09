@@ -1,7 +1,7 @@
 def solve1(d, s):
     for i in range(s, len(d)):
-        if data[i] not in [(m + n) for j, m in enumerate(d[i-s:i]) for n in d[i-s+j+1:i]]:
-            return data[i]
+        if d[i] not in [(m + n) for j, m in enumerate(d[i-s:i]) for n in d[i-s+j+1:i]]:
+            return d[i]
 
 def solve2(d, t):
     a, b, s = 0, 0, 0
