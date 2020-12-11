@@ -33,14 +33,8 @@ def simulate_1(grid_1, grid_2, max_dist, max_seats):
 def solve(grid, max_dist, max_seats):
     next_grid = deepcopy(grid)
     grid, next_grid = simulate_1(grid, next_grid, max_dist, max_seats)
-    for r in next_grid:
-        print(''.join(r))
-    print()
     while grid != next_grid:
         grid, next_grid = simulate_1(next_grid, grid, max_dist, max_seats)
-        for r in next_grid:
-            print(''.join(r))
-        print()
     return sum([row.count('#') for row in grid])
 
 
