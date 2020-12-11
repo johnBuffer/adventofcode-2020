@@ -7,15 +7,14 @@ def get_sight(row, col, grid, dr, dc, md):
 def get_count(row, col, grid, md):
     return sum([get_sight(row, col, grid, i, j, md) for i in [-1, 0, 1] for j in [-1, 0, 1] if i or j])
 
-def next_state(current, occupied, max_seats):
-    swap = (current == 0) * (occupied == 0) + (current == 1) * (occupied > max_seats)
-    return 1 - current if swap else current 
+def next_state(cur, occ, ms):
+    return 1 - cur if (not cur) * (not occ) + (cur%2) * (occ > ms) else cur
 
 def simulate(g, md, ms):
     return [[next_state(cl, get_count(r, c, g, md), ms) for c, cl in enumerate(rw)] for r, rw in enumerate(g)]
 
-def solve(grid, last, md, ms):
-    return sum(r.count(1) for r in grid) if grid == last else solve(simulate(grid, md, ms), grid, md, ms)
+def solve(current, last, md, ms):
+    return sum(r.count(1) for r in current) if current == last else solve(simulate(current, md, ms), current, md, ms)
 
 data = [[2 * (c == '.') for c in l.strip('\n')] for l in open('input')]
 print(solve(data, None, 1, 3))
