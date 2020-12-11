@@ -1,43 +1,22 @@
-from copy import deepcopy
+def get_sight(row, col, grid, dr, dc, md):
+    h, w, r, c, d, l = len(grid), len(grid[0]), row + dr, col + dc, 1, 2
+    while h > r > -1 and w > c > -1 and d <= md and l > 1:
+        r, c, d, l = r + dr, c + dc, d + 1, grid[r][c]
+    return l%2
 
-def valid(row, col, grid):
-    return len(grid) > row > -1 and len(grid[0]) > col > -1
-
-def get_sight(row, col, grid, direction, mxd):
-    r, c, d = row + direction[0], col + direction[1], 1
-    while valid(r, c, grid) and d <= mxd:
-        if grid[r][c] == "#":
-            return 1
-        if grid[r][c] == "L":
-            return 0
-        r, c, d = r + direction[0], c + direction[1], d + 1
-    return 0
-
-def get_count(row, col, grid, max_dist):
-    offsets = [(i, j) for i in range(-1, 2) for j in range(-1, 2) if i != 0 or j != 0]
-    return sum([get_sight(row, col, grid, (i, j), max_dist) for i, j in offsets])
+def get_count(row, col, grid, md):
+    return sum([get_sight(row, col, grid, i, j, md) for i in [-1, 0, 1] for j in [-1, 0, 1] if i or j])
 
 def next_state(current, occupied, max_seats):
-    if current == 'L' and occupied == 0:
-        return '#'
-    if current == '#' and occupied > max_seats:
-        return 'L'
-    return current
+    swap = (current == 0) * (occupied == 0) + (current == 1) * (occupied > max_seats)
+    return 1 - current if swap else current 
 
-def simulate_1(grid_1, grid_2, max_dist, max_seats):
-    for r, row in enumerate(grid_1):
-        for c, col in enumerate(row):
-            grid_2[r][c] = next_state(col, get_count(r, c, grid_1, max_dist), max_seats)
-    return grid_1, grid_2
+def simulate(g, md, ms):
+    return [[next_state(cl, get_count(r, c, g, md), ms) for c, cl in enumerate(rw)] for r, rw in enumerate(g)]
 
-def solve(grid, max_dist, max_seats):
-    next_grid = deepcopy(grid)
-    grid, next_grid = simulate_1(grid, next_grid, max_dist, max_seats)
-    while grid != next_grid:
-        grid, next_grid = simulate_1(next_grid, grid, max_dist, max_seats)
-    return sum([row.count('#') for row in grid])
+def solve(grid, last, md, ms):
+    return sum(r.count(1) for r in grid) if grid == last else solve(simulate(grid, md, ms), grid, md, ms)
 
-
-data = [list(l.strip('\n')) for l in open('input')]
-#print(solve(deepcopy(data), 1, 3))
-print(solve(deepcopy(data), max(len(data), len(data[0])), 4))
+data = [[2 * (c == '.') for c in l.strip('\n')] for l in open('input')]
+print(solve(data, None, 1, 3))
+print(solve(data, None, max(len(data), len(data[0])), 4))
