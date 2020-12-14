@@ -1,6 +1,6 @@
 def parse(line):
-    (l, r), a = line.split(' = '), line.split(' = ')[0] != 'mask'
-    return int(l[4 : -1]) if a else None, int(r) if a else None, r.strip('\n') if not a else None
+    (l, r), a = line.strip('\n').split(' = '), line.find('mask') == -1
+    return int(l[4 : -1]) if a else None, int(r) if a else None, r if not a else None
 
 def write_mem(address, value, mask, index, memory):
     if index == len(mask):
