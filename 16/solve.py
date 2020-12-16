@@ -14,29 +14,23 @@ def load_rules(data):
 def valid(value, rules):
     return sum(r[0] <= value <= r[1] or r[2] <= value <= r[3] for r in rules) > 0
 
+def iso(rl, s = {}):
+    return s if len(s) == len(rl) else iso([r - set(s.values()) for r in rl], s.update({i: list(r)[0] for i, r in enumerate(rl) if len(r) == 1}) or s)
+
+def validForAll(rule, i, tickets):
+    return sum(valid(t[i], [rule]) for t in tickets) == len(tickets)
+
 def solve_1(rules, tickets):
-    return sum(sum(v for v in t if not valid(v, rules.values())) for t in tickets)
-
-def isolate(valid_rules):
-    res = {}
-    for _ in valid_rules:
-        for i, r in enumerate(valid_rules):
-            if len(r) == 1:
-                res[i] = list(r)[0]
-                for s in valid_rules: s.discard(res[i])
-    return res
-
+    return sum(v for t in tickets for v in t if not valid(v, rules.values()))
 
 def solve_2(rules, tickets):
-    valid_rules = [set() for i in range(len(tickets[0]))]
-    valid_tickets = [t for t in tickets if sum(valid(t[i], rules.values()) for i in range(len(t))) == len(t)]
-    for i in range(len(tickets[0])):
-        for name, r in rules.items():
-            if sum((r[0] <= t[i] <= r[1] or r[2] <= t[i] <= r[3]) for t in valid_tickets) == len(valid_tickets):
-                valid_rules[i].add(name)
-    return math.prod(tickets[0][i] for i, n in isolate(valid_rules).items() if n.find('departure') == 0)
-                    
+    valids = [t for t in tickets if not sum(not valid(v, rules.values()) for v in t)]
+    valid_rules = [set([n for n, r in rules.items() if validForAll(r, i, valids)]) for i in range(len(tickets[0]))]
+    return math.prod(tickets[0][i] for i, n in iso(valid_rules).items() if n.find('departure') == 0)
+
 
 rules, tickets = load_data()
+# Part 1
 print(solve_1(rules, tickets[1:]))
+# Part 2
 print(solve_2(rules, tickets))
