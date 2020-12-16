@@ -13,20 +13,15 @@ def valid(value, rules):
 def iso(rl, s = {}):
     return s if len(s) == len(rl) else iso([r - set(s.values()) for r in rl], {i: s.get(i) or list(r)[0] for i, r in enumerate(rl) if len(r) < 2})
 
-def validForAll(rule, i, tickets):
+def valid_for_all(rule, i, tickets):
     return sum(valid(t[i], [rule]) for t in tickets) == len(tickets)
 
-def solve_1(rules, tickets):
-    return sum(v for t in tickets for v in t if not valid(v, rules.values()))
-
 def solve_2(rules, tickets, count):
-    valids = [t for t in tickets if not sum(not valid(v, rules.values()) for v in t)]
-    valid_rules = [set([n for n, r in rules.items() if validForAll(r, i, valids)]) for i in range(count)]
+    valid_rules = [set([n for n, r in rules.items() if valid_for_all(r, i, tickets)]) for i in range(count)]
     return math.prod(tickets[0][i] for i, n in iso(valid_rules).items() if n.find('departure') == 0)
-
 
 rules, tickets = load_data()
 # Part 1
-print(solve_1(rules, tickets[1:]))
+print(sum(v for t in tickets for v in t if not valid(v, rules.values())))
 # Part 2
-print(solve_2(rules, tickets, len(tickets[0])))
+print(solve_2(rules, [t for t in tickets if not sum(not valid(v, rules.values()) for v in t)], len(tickets[0])))
