@@ -11,7 +11,7 @@ def valid(value, rules):
     return sum(r[0] <= value <= r[1] or r[2] <= value <= r[3] for r in rules) > 0
 
 def iso(rl, s = {}):
-    return s if len(s) == len(rl) else iso([r - set(s.values()) for r in rl], s.update({i: list(r)[0] for i, r in enumerate(rl) if len(r) == 1}) or s)
+    return s if len(s) == len(rl) else iso([r - set(s.values()) for r in rl], {i: s.get(i) or list(r)[0] for i, r in enumerate(rl) if len(r) < 2})
 
 def validForAll(rule, i, tickets):
     return sum(valid(t[i], [rule]) for t in tickets) == len(tickets)
