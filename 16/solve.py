@@ -5,11 +5,7 @@ def load_data():
     return load_rules(rules), [[int(v) for v in l.split(',')] for l in tickets.split('\n')[1:] if len(l) and l[0] not in ['y', 'n']]
 
 def load_rules(data):
-    lines, rules = data.split('\n'), {}
-    for l in lines:
-        name, values = l.split(': ')
-        rules[name] = [int(v) for r in values.split(' or ') for v in r.split('-')]
-    return rules
+    return {name: [int(v) for r in rule.split(' or ') for v in r.split('-')] for name, rule in [l.split(': ') for l in data.split('\n')]}
 
 def valid(value, rules):
     return sum(r[0] <= value <= r[1] or r[2] <= value <= r[3] for r in rules) > 0
