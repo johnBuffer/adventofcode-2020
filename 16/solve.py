@@ -23,9 +23,9 @@ def validForAll(rule, i, tickets):
 def solve_1(rules, tickets):
     return sum(v for t in tickets for v in t if not valid(v, rules.values()))
 
-def solve_2(rules, tickets):
+def solve_2(rules, tickets, count):
     valids = [t for t in tickets if not sum(not valid(v, rules.values()) for v in t)]
-    valid_rules = [set([n for n, r in rules.items() if validForAll(r, i, valids)]) for i in range(len(tickets[0]))]
+    valid_rules = [set([n for n, r in rules.items() if validForAll(r, i, valids)]) for i in range(count)]
     return math.prod(tickets[0][i] for i, n in iso(valid_rules).items() if n.find('departure') == 0)
 
 
@@ -33,4 +33,4 @@ rules, tickets = load_data()
 # Part 1
 print(solve_1(rules, tickets[1:]))
 # Part 2
-print(solve_2(rules, tickets))
+print(solve_2(rules, tickets, len(tickets[0])))
