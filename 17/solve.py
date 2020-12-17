@@ -8,7 +8,7 @@ def ns(p, c, data):
     return 1 - c if (c and (a < 2 or a > 3)) or (c == 0 and a == 3) else c
 
 def solve(g, dim, count):
-    for i in range(1, count+1): g = {p: ns(p, g.get(p, 0), g) for p in offs([0 for _ in dim], [(-i, s+i) for s in dim])}
+    for i in range(1, count+1): g = {p: ns(p, g.get(p, 0), g) for p in offs([0]*len(dim), [(-i, s+i) for s in dim])}
     return sum(v for v in g.values())
 
 lines = [l.strip('\n') for l in open('input')]
