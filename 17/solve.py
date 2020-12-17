@@ -8,7 +8,7 @@ def ns(p, c, data):
     return 1 - c if (c and (a < 2 or a > 3)) or (c == 0 and a == 3) else c
 
 def slv(g, d, c, i=1):
-    return sum(v for v in g.values()) if i==c else slv({p: ns(p, g.get(p, 0), g) for p in offs([0]*len(d), [(-i, s+i) for s in d])}, d, c, i+1)
+    return sum(g.values()) if i==c else slv({p: ns(p, g.get(p, 0), g) for p in offs([0]*len(d), [(-i, s+i) for s in d])}, d, c, i+1)
 
 lines = [l.strip('\n') for l in open('input')]
 dim = (len(lines[0]), len(lines), 1)
