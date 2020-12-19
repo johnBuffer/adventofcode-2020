@@ -9,12 +9,11 @@ def parse_rules(data):
     for l in data.split('\n'):
         left, right = l.split(': ')
         if right[0] == '"': rules[left] = right[1], [], []
+        elif '|' in right:
+            or_left, or_right = right.split(' | ')
+            rules[left] = None, or_left.split(' '), or_right.split(' ')
         else:
-            if '|' in right:
-                or_left, or_right = right.split(' | ')
-                rules[left] = None, or_left.split(' '), or_right.split(' ')
-            else:
-                rules[left] = None, right.split(' '), []
+            rules[left] = None, right.split(' '), []
     return rules
 
 def gen(rule, rules, deep=0):
@@ -30,7 +29,7 @@ def gen(rule, rules, deep=0):
 
 rules, words = load_data()
 regex_data = '^{}$'.format(gen('0', rules))
-print(len(regex_data))
+print(regex_data)
 # Part 1 and 2
 regex = re.compile(regex_data)
 print(sum(bool(regex.match(w)) for w in words))
