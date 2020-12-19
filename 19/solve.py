@@ -8,28 +8,29 @@ def parse_rules(data):
     rules = {}
     for l in data.split('\n'):
         left, right = l.split(': ')
-        if right[0] == '"': rules[left] = right[1], None, None
+        if right[0] == '"': rules[left] = right[1], [], []
         else:
-            if right.find(' | ') > -1:
+            if '|' in right:
                 or_left, or_right = right.split(' | ')
                 rules[left] = None, or_left.split(' '), or_right.split(' ')
             else:
-                rules[left] = None, right.split(' '), None
+                rules[left] = None, right.split(' '), []
     return rules
 
-def build_rule(rule, all_rules, deep=0):
-    if deep < 20: # my humble solution for part 2 xD
-        char, left, right = all_rules[rule]
+def gen(rule, rules, deep=0):
+    if deep < 15: # my humble solution for part 2 xD
+        char, left, right = rules[rule]
         if char is not None: 
             return char
-        reg_left = ''.join([build_rule(r,  all_rules, deep + 1) for r in left])
-        reg_right = '' if not right else ''.join([build_rule(r, all_rules, deep + 1) for r in right])
-        return '({})'.format('|'.join(['(' + r + ')' for r in [reg_left, reg_right] if len(r)]))
+        parts = [''.join([gen(r, rules, deep + 1) for r in p]) for p in [left, right]]
+        if not all(len(p) == 0 for p in parts):
+            reg = '|'.join([p for p in parts if len(p)])
+            return reg if not right else '({})'.format(reg)
     return ''
 
-
 rules, words = load_data()
-regex_data = '^{}$'.format(build_rule('0', rules))
+regex_data = '^{}$'.format(gen('0', rules))
+print(len(regex_data))
 # Part 1 and 2
 regex = re.compile(regex_data)
 print(sum(bool(regex.match(w)) for w in words))
