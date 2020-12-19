@@ -17,28 +17,19 @@ def parse_rules(data):
                 rules[left] = None, right.split(' '), None
     return rules
 
-def build_rule_rec(rule, all_rules, deep=0):
+def build_rule(rule, all_rules, deep=0):
     if deep < 20: # my humble solution for part 2 xD
         char, left, right = all_rules[rule]
         if char is not None: 
             return char
-
-        reg_left = ''.join([build_rule_rec(r,  all_rules, deep + 1) for r in left])
-        reg_right = '' if not right else ''.join([build_rule_rec(r, all_rules, deep + 1) for r in right])
-
+        reg_left = ''.join([build_rule(r,  all_rules, deep + 1) for r in left])
+        reg_right = '' if not right else ''.join([build_rule(r, all_rules, deep + 1) for r in right])
         return '({})'.format('|'.join(['(' + r + ')' for r in [reg_left, reg_right] if len(r)]))
     return ''
 
-def build_rule(rule, all_rules):
-    return '^{}$'.format(build_rule_rec(rule, all_rules))
-
-def match_rule(word, rule, all_rules):
-    char, left, right = rule
-    if char is not None:
-        return word[0] == char, word[1:]
 
 rules, words = load_data()
-regex_data = build_rule('0', rules)
+regex_data = '^{}$'.format(build_rule('0', rules))
 # Part 1 and 2
 regex = re.compile(regex_data)
 print(sum(bool(regex.match(w)) for w in words))
